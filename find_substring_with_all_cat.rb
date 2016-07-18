@@ -1,12 +1,14 @@
 def find_substring(s, words)
-  arr=[]
-  words=words.sort
-  (s.size-words[0].size+1).times{|i| arr[i]=s[i..i+words[0].size-1] }
+  words.sort!
+
+  wordLength = words.first.size
+  arr = (0..s.size - wordLength).collect {|i| s.slice(i, wordLength) }
+
   result=[]
-  (s.size-words.size*words[0].size+1).times do |i|
-    tmpArr=[]
-    words.size.times{|j| tmpArr<<arr[i+j*words[0].size]}
-    result<<i if tmpArr.sort == words
+  countLength = wordLength * words.size
+  (0..s.size - countLength).each do |i|
+    used = words.size.times.collect{|j| arr[i + j * wordLength]}
+    result << i if used.sort == words
   end
   result
 end
